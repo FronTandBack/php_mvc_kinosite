@@ -1,4 +1,6 @@
 <?php 
 
+use Core\Components\Router;
 
-Router::add('^$', ['controller' => 'Main', 'action' => 'index']);
+Router::add(['index.php' => 'main/index']);
+Router::add(['' => 'main/index']);

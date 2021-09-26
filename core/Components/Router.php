@@ -8,8 +8,9 @@ class Router
     protected static $route = [];
 
     public static function add(array $route = []){
-        // self::$routes = $route;
+
         array_push(self::$routes, $route);
+
     }
 
     public static function getRoutes(){
@@ -23,79 +24,57 @@ class Router
         // var_dump(self::$routes);
         $arr = ["test" => 2, "Chidori" => 3];
         echo "<br>";
-        foreach (self::$routes as $pattern => $path) {
+        foreach (self::$routes as $routeKey => $routeValue) {
 
-            var_dump($pattern);
-            // Сравниваем $uriPattern и $uri
-            // if (preg_match("~$uriPattern~", $uri)) {
-
-            //     // Получаем внутренний путь из внешнего согласно правилу.
-            //     $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
-
-            //     // Определить контроллер, action, параметры
-
-            //     $segments = explode('/', $internalRoute);
-
-            //     $controllerName = array_shift($segments) . 'Controller';
-            //     $controllerName = ucfirst($controllerName);
-
-            //     $actionName = 'action' . ucfirst(array_shift($segments));
-
-            //     $parameters = $segments;
-
-            //     // Подключить файл класса-контроллера
-            //     $controllerFile = ROOT . '/controllers/' .
-            //             $controllerName . '.php';
-
-            //     if (file_exists($controllerFile)) {
-            //         include_once($controllerFile);
-            //     }
-
-            //     // Создать объект, вызвать метод (т.е. action)
-            //     $controllerObject = new $controllerName;
-
-            //     /* Вызываем необходимый метод ($actionName) у определенного 
-            //      * класса ($controllerObject) с заданными ($parameters) параметрами
-            //      */
-            //     $result = call_user_func_array([$controllerObject, $actionName], $parameters);
-
-            //     // Если метод контроллера успешно вызван, завершаем работу роутера
-            //     if ($result != null) {
-            //         break;
-            //     }
-            // }
+           $r = self::matchRoute($routeKey, $routeValue);
+          
         }
     }
 
 
-    public static function matchRoute(string $uri): bool{
+    private static function matchRoute(string $routeKey, string $routeValue): bool{
 
-        foreach(self::$routes as $pattern => $route){
+            $pattern = $routeKey;
+            $uri = $routeValue;
+            if (preg_match("#$pattern#", $uri)) {
 
-            if(preg_match("#{$pattern}#i", $uri, $matches)){
+                // Получаем внутренний путь из внешнего согласно правилу.
+                $internalRoute = preg_replace("#$pattern#", $path, $uri);
 
-                foreach($matches as $k => $v){
-                    if(is_string($k)){
-                        $route[$k] = $v;
-                    }
+                // Определить контроллер, action, параметры
+
+                $segments = explode('/', $internalRoute);
+
+                $controllerName = array_shift($segments) . 'Controller';
+                $controllerName = ucfirst($controllerName);
+
+                $actionName = 'action' . ucfirst(array_shift($segments));
+
+                $parameters = $segments;
+
+                // Подключить файл класса-контроллера
+                $controllerFile = ROOT . '/controllers/' .
+                        $controllerName . '.php';
+
+                if (file_exists($controllerFile)) {
+                    include_once($controllerFile);
                 }
 
-                if(empty($route['action']) ) {
-                    $route['action'] = 'index';
-                }
+                // Создать объект, вызвать метод (т.е. action)
+                $controllerObject = new $controllerName;
 
-                // if(!isset($route['prefix'])) {
-                //     $route['prefix'] = '';
-                // }else{
-                //     $route['prefix'] .= '\\';
-                // }
-                // $route['controller'] = self::upperCamelCase($route['controller']);
-                $route['controller'] = ucfirst($route['controller']);
-                self::$route = $route;
-                return true;
+                /* Вызываем необходимый метод ($actionName) у определенного 
+                 * класса ($controllerObject) с заданными ($parameters) параметрами
+                 */
+                $result = call_user_func_array([$controllerObject, $actionName], $parameters);
+
+                // Если метод контроллера успешно вызван, завершаем работу роутера
+                if ($result != null) {
+                   return true;
+                }
             }
-        }
-        return false;
+
+            return false;
     }
 
 

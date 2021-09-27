@@ -9,7 +9,7 @@ class Router
     protected static $routes = [];
     protected static $route = [];
 
-    public static function add(array $route = [], string $method = 'get'){
+    public static function add(array $route = []){
 
         array_push(self::$routes, $route);
 
@@ -34,9 +34,9 @@ class Router
         }
     }
 
-    public static function get()
+    public static function get(array $route = [])
     {
-        
+        self::add($route);
     }
 
 

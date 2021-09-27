@@ -9,10 +9,13 @@ use Core\Components\Controller;
 class MainController extends Controller
 {
 
-    public function actionIndex(): bool
+    public function actionIndex()
     {
 
         print_r('Hello action controller');
-        return true;
+
+        return $this->render('home', [
+            'name' => 'TheCodeholic'
+        ]);
     }
 }

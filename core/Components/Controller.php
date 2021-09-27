@@ -8,6 +8,11 @@ abstract class Controller {
     
     public function __construct()
     {
-        print_r('Controller class');
+        
+    }
+
+    public function render()
+    {
+        return true;
     }
 }

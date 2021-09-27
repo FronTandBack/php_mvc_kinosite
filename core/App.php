@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Core;
 
 use Core\Components\Router;
@@ -12,7 +14,7 @@ class App
         // $query = trim($_SERVER['QUERY_STRING'], '/');
         $query = self::getURI();
         
-        print_r('Namespaceing working okay');
+        // print_r('Namespaceing working okay');
         Router::dispatch($query);
 
         

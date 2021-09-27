@@ -1,7 +1,9 @@
 <?php 
 
+declare(strict_types=1);
+
 use Core\Components\Router;
 
-Router::add(['index.php' => 'main/index']);
-Router::add(['kinosite' => 'main/index']);
-Router::add(['' => 'main/index']);
+Router::get(['index.php' => 'main/index'], 'get');
+Router::get(['kinosite' => 'main/index'], 'get');
+Router::get(['' => 'main/index'], 'get');

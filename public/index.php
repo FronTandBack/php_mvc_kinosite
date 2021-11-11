@@ -2,31 +2,35 @@
 
 declare(strict_types=1);
 
-
-// ini_set('display_errors', '1');
-// error_reporting(E_ALL);
+use App\Database;
 
 
+ini_set('display_errors', '1');
+error_reporting(E_ALL);
 
-// session_start();
+
+
+session_start();
 
 require_once dirname(__DIR__) . '/config/settings.php';
-// require_once CONFIG . '/routes.php';
-
-// new \Core\App();
-
-
-use App\Database;
-use App\Table;
-use DI\ContainerBuilder;
-
+require_once CONFIG . '/routes.php';
 
 $table = new Table(new Database());
 
 
-$containerBuilder = new ContainerBuilder();
-$containerBuilder->addDefinitions(__DIR__.'/config.php');
 
-$container = $containerBuilder->build();
+new \Core\App();
 
-$user = $container->get(Table::class);
+
+// use App\Table;
+// use DI\ContainerBuilder;
+
+
+
+
+// $containerBuilder = new ContainerBuilder();
+// $containerBuilder->addDefinitions(__DIR__ . '/config.php');
+
+// $container = $containerBuilder->build();
+
+// $user = $container->get(Table::class);

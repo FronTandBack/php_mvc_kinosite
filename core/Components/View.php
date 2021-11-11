@@ -21,7 +21,13 @@ class View implements IView
     public function renderView()
     {
         
-        var_dump($this->params);
+        
+        $pathView = TEMPLATE . '/' . $this->name;
+
+        $pathView = str_replace('/', '\\', $pathView) . '.php';
+        
+        // print_r($pathView);
+        include_once $pathView;
         // return $this->name . ' View File ' . $this->params;
     }
 }

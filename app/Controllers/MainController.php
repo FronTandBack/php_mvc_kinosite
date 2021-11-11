@@ -13,7 +13,7 @@ class MainController extends Controller
     {
 
 
-        return $this->render('home', [
+        return $this->render('index', [
             'name' => 'TheCodeholic'
         ]);
     }

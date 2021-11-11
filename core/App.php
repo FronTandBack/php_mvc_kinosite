@@ -4,20 +4,34 @@ declare(strict_types=1);
 
 namespace Core;
 
+use Core\Components\Config;
 use Core\Components\Router;
+use Core\Components\Database;
+use Core\Components\Session;
 
 class App 
 {
     
-    public function __construct()
+    private static Database $db;
+    public Session $session;
+    public function __construct(private Config $config)
     {
-        // $query = trim($_SERVER['QUERY_STRING'], '/');
+
+        static::$db = new Database($config->db ?? []);
+
+
+        $this->session = new Session();
+
         $query = self::getURI();
         
-        // print_r('Namespaceing working okay');
         Router::dispatch($query);
 
         
+    }
+
+    public static function getConnection(): Database
+    {
+        return static::$db;
     }
 
 
